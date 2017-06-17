@@ -3,12 +3,12 @@ import time
 
 class DHT22(object):
 
-	def __init__(self,pinnum):
-		dhtreader.init()
-		dhtreader.lastDataTime = 0
-		dhtreader.lastData = (None,None)
-		self.pinNum = pinnum
-		return
+    def __init__(self,pinnum):
+        dhtreader.init()
+        dhtreader.lastDataTime = 0
+        dhtreader.lastData = (None,None)
+        self.pinNum = pinnum
+        return
 
     def read_temperature(self):
         tm = dhtreader.lastDataTime
