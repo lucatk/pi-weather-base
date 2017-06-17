@@ -31,8 +31,8 @@ sensor_dht22 = DHT22.DHT22(pinnum=config["dht22"]["pinnum"])
 
 # try:
 while True:
-    print "".join(["\t\tTemperature (BMP180): ", str(sensor_bmp180.read_temperature()), "\tPressure (BMP180): ", str(sensor_bmp180.read_pressure()), "\tTemperature (DHT22): ", str(sensor_dht22.read_temperature(), "\tHumidity (DHT22): ", str(sensor_dht22.read_humidity()), "%\r")]) ,
-    stdout.flush()
+    print "".join(["\t\tTemperature (BMP180): ", str(sensor_bmp180.read_temperature()), "\tPressure (BMP180): ", str(sensor_bmp180.read_pressure()), "\tTemperature (DHT22): ", str(sensor_dht22.read_temperature(), "\tHumidity (DHT22): ", str(sensor_dht22.read_humidity()), "%")]) ,
+    # stdout.flush()
     # scr.addstr(0, 0, "".join(["\t\tTemperature (BMP180): ", str(sensor_bmp180.read_temperature()), "\tPressure (BMP180): ", str(sensor_bmp180.read_pressure())]))
     # scr.addstr(1, 0, "".join(["\t\tTemperature (DHT22): ", str(sensor_dht22.read_temperature()), "\tHumidity (DHT22): ", str(sensor_dht22.read_humidity()), "%"]))
     # scr.refresh()
