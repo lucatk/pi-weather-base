@@ -15,12 +15,10 @@ import RPi.GPIO as GPIO
 
 from sys import exit
 
-from sensors import bmp180
+import sensors.BMP085 as BMP085
 
-temperatureSensor = bmp180.BMP180("temp", config["bmp180"])
-pressureSensor = bmp180.BMP180("pres", config["bmp180"])
+sensor_bmp180 = BMP085.BMP085(busnum=config["bmp180"]["i2cbus"])
 
 while True:
-    print "".join(["\t\tTemperature (BMP180): ", str(temperatureSensor.getVal()), "\tPressure (BMP180): ", str(pressureSensor.getVal())])
+    print "".join(["\r", "\t\tTemperature (BMP180): ", str(sensor_bmp180.read_temperature()), "\tPressure (BMP180): ", str(sensor_bmp180.read_pressure())])
     time.sleep(1)
-    print "\r"
