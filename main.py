@@ -1,43 +1,25 @@
-####     CONFIG     ####
-
-config = {
-    "bmp180": {
-        "i2cbus": 1
-    },
-    "dht22": {
-        "pinnum": 4
-    }
-}
-
-####   END CONFIG   ####
-
-
+import zmq
 import sys
 import time
-import curses
-import RPi.GPIO as GPIO
+import json
 
 from sys import stdout
 
-import sensors.BMP085 as BMP085
-import sensors.DHT22 as DHT22
+import Adafruit_DHT
 
-sensor_bmp180 = BMP085.BMP085(busnum=config["bmp180"]["i2cbus"])
-sensor_dht22 = DHT22.DHT22(pinnum=config["dht22"]["pinnum"])
+sensor_DHT = Adafruit_DHT.DHT22
+sensor_DHT_PIN = 4
 
-# scr = curses.initscr()
-# curses.noecho()
-# curses.cbreak()
+zmqContext = zmq.Context()
+socket = zmqContext.socket(zmq.REP)
+socket.bind("tcp://127.0.0.1:5555")
 
-# try:
 while True:
-    print "".join(["\t\tTemperature (BMP180): ", str(sensor_bmp180.read_temperature()), "\tPressure (BMP180): ", str(sensor_bmp180.read_pressure()), "\tTemperature (DHT22): ", str(sensor_dht22.read_temperature(), "\tHumidity (DHT22): ", str(sensor_dht22.read_humidity()), "%")]) ,
-    # stdout.flush()
-    # scr.addstr(0, 0, "".join(["\t\tTemperature (BMP180): ", str(sensor_bmp180.read_temperature()), "\tPressure (BMP180): ", str(sensor_bmp180.read_pressure())]))
-    # scr.addstr(1, 0, "".join(["\t\tTemperature (DHT22): ", str(sensor_dht22.read_temperature()), "\tHumidity (DHT22): ", str(sensor_dht22.read_humidity()), "%"]))
-    # scr.refresh()
-    time.sleep(1)
-# finally:
-#     curses.echo()
-#     curses.nocbreak()
-#     curses.endwin()
+    humid, dht_temp = Adafruit_DHT.read_retry(sensor_DHT, sensor_DHT_PIN)
+
+    data = {
+        "humidity": humid,
+        "dht_temperature": dht_temp
+    }
+    socket.send_json(json.dump(data))
+    time.sleep(10)
